@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UselessAI™</title>
+  <link rel="stylesheet" href="">
+  scrpt
+<style>
+  body {
+  background: linear-gradient(120deg, #111 0%, #222 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #f0f0f0;
+  text-align: center;
+  padding: 2rem;
+  overflow-x: hidden;
+}
+.fake-virus {
+  position: fixed;
+  width: 250px;
+  height: 150px;
+  background: #101010;
+  border: 2px solid red;
+  color: #ff4444;
+  font-family: monospace;
+  font-size: 0.9rem;
+  padding: 0.5rem;
+  box-shadow: 0 0 15px red;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.fake-virus h4 {
+  margin: 0;
+  background: red;
+  color: black;
+  padding: 0.2rem;
+  font-size: 0.85rem;
+}
+
+.fake-virus p {
+  flex: 1;
+  margin: 0.4rem 0;
+}
+
+.fake-virus button {
+  align-self: flex-end;
+  background: red;
+  color: white;
+  border: none;
+  font-weight: bold;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #00faff;
+  animation: neonCycle 4s infinite linear;
+  text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+}
+
+@keyframes neonCycle {
+  0% { color: #00faff; text-shadow: 0 0 10px #0ff, 0 0 20px #0ff; }
+  25% { color: #ff00e6; text-shadow: 0 0 10px #f0f, 0 0 20px #f0f; }
+  50% { color: #39ff14; text-shadow: 0 0 10px #3f3, 0 0 20px #3f3; }
+  75% { color: #ffa500; text-shadow: 0 0 10px #fa0, 0 0 20px #fa0; }
+  100% { color: #00faff; text-shadow: 0 0 10px #0ff, 0 0 20px #0ff; }
+}
+
+#chatbox {
+  width: 95%;
+  max-width: 720px;
+  margin: 1rem auto;
+  background: #dcc5c5;
+  border-radius: 12px;
+  padding: 1.5rem;
+  height: 400px;
+  overflow-y: auto;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+  border: 1px solid #444;
+}
+
+input, button {
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #555;
+  border-radius: 8px;
+  margin-top: 1rem;
+  outline: none;
+  background-color: #2a2a2a;
+  color: #f0f0f0;
+}
+
+input {
+  width: 60%;
+  margin-right: 0.5rem;
+}
+
+button {
+  background-color: #00c2ff;
+  color: #000;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.2s ease;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #00e5ff;
+  box-shadow: 0 0 10px #00faff;
+}
+
+.message {
+  display: flex;
+  max-width: 80%;
+  margin: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-radius: 1rem;
+  line-height: 1.4;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.user {
+  margin-left: auto;
+  background: linear-gradient(135deg, #b0b7b7, #53585b);
+  color: #000;
+  font-weight: bold;
+  box-shadow: 0 0 5px #808485;
+}
+
+.ai {
+  margin-right: auto;
+  background: linear-gradient(135deg, #8f8e8f, #535353);
+  color: #fff;
+  box-shadow: 0 0 5px #444243;
+}
+
+
+
+
+.popup, .location-popup {
+  background: #1c1c1c;
+  border: 2px solid #ff1744;
+  padding: 1.2rem;
+  border-radius: 12px;
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+  box-shadow: 0 0 25px rgba(255, 23, 68, 0.7);
+  max-width: 400px;
+  text-align: center;
+  font-weight: 500;
+  color: #fff;
+}
+.custom-popup {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #111;
+  color: #fff;
+  border: 2px solid #ff1493;
+  border-radius: 8px;
+  padding: 1.5rem;
+  z-index: 1000;
+  text-align: center;
+  width: 300px;
+  box-shadow: 0 0 20px #ff69b4;
+  animation: popSlide 0.4s ease-out;
+}
+
+.popup-img {
+  width: 100%;
+  max-height: 150px;
+  object-fit: contain;
+  margin-bottom: 1rem;
+}
+
+.custom-popup button {
+  margin-top: 10px;
+  background: #ff1493;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+@keyframes popSlide {
+  0% { transform: translate(-50%, -60%) scale(0.5); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+#splash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+  z-index: 99999;
+  animation: flicker 3s infinite;
+}
+
+.splash-title {
+  font-size: 3.5rem;
+  text-transform: uppercase;
+  position: relative;
+  animation: glitch 1s infinite;
+  color: #ff4d4d;
+  font-family: 'Courier New', monospace;
+}
+
+.splash-title::before,
+.splash-title::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  color: #fff;
+  background: #000;
+  clip: rect(0, 900px, 0, 0);
+}
+
+.splash-title::before {
+  animation: glitchTop 1s infinite;
+  color: #0ff;
+}
+
+.splash-title::after {
+  animation: glitchBottom 1s infinite;
+  color: #f0f;
+}
+
+.splash-subtext {
+  font-size: 1.2rem;
+  margin-top: 20px;
+  color: #ccc;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid #ccc;
+  width: 0;
+  animation: typing 4s steps(40, end) 1 forwards, blink 0.5s step-end infinite alternate;
+}
+
+@keyframes flicker {
+  0%, 100% { background-color: #000; }
+  50% { background-color: #111; }
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 50%; }
+}
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
+@keyframes glitch {
+  0% { transform: none; }
+  20% { transform: skew(-2deg); }
+  40% { transform: skew(2deg); }
+  60% { transform: translateX(5px); }
+  80% { transform: translateX(-5px); }
+  100% { transform: none; }
+}
+
+@keyframes glitchTop {
+  0% { clip: rect(0, 9999px, 0, 0); }
+  10% { clip: rect(10px, 9999px, 30px, 0); transform: translate(-5px, -5px); }
+  20% { clip: rect(5px, 9999px, 25px, 0); transform: translate(5px, -2px); }
+  100% { clip: rect(0, 9999px, 0, 0); transform: none; }
+}
+
+
+#chaosOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999999;
+  flex-direction: column;
+}
+
+#chaosOverlay img {
+  width: 100%;
+  max-height: 100vh;
+  object-fit: contain;
+}
+
+#chaosOverlay.hidden {
+  display: none;
+}
+
+.hidden {
+  display: none;
+}
+</style>
+</head>
+<body>
+<audio id="audio1" src="frong frog.mp3"></audio>
+<audio id="audio2" src="juice (1).mp3"></audio>
+<audio id="audio3" src="cowboy.mp3"></audio>
+
+  <div id="chaosOverlay" class="hidden">
+  <img src="havis-bro.png" alt="Screamer" />
+  <audio id="chaosAudio" src="gopan.mp3"></audio>
+</div>
+
+<div id="splash">
+  <div class="splash-title" data-text="Heist Via HTML™">Heist Via HTML™</div>
+  <div class="splash-subtext">Now stealing...cookies, dreams, and keyboard access</div>
+</div>
+
+  <h1>UselessAI 🤖</h1>
+  <p>Ask me anything. I promise to help. </p>
+
+  <div id="chatbox"></div>
+
+  <input type="text" id="userInput" placeholder="Here to make your life wonderful..." />
+  <button onclick="handleUserInput()">Ask</button>
+
+  <div id="paymentPopup" class="popup hidden">
+    <p><strong>⚠️ Activate Premium Confusion™</strong></p>
+    <p>₹999/month – Get even more useless ideas and suspicious links! <br> send money to  havisvh@pingpay</p>
+<button onclick="handleNoThanks()">No thanks</button>
+    <button onclick="rickroll()">Upgrade Now</button>
+  </div>
+
+  <div id="locationPopup" class="location-popup hidden">
+    <p><strong>📍 We need your location to scan nearby goat frequencies.</strong></p>
+    <button onclick="closeLocation()">Allow</button>
+    <button onclick="leakFakeData()">Deny</button>
+  </div>
+<div id="devicePopup" class="popup hidden">
+  <h3 style="padding-top: 40px;">Hot Guy nearby</h3>
+    <img src="havis-bro.png" alt="Coming..." class="popup-img">
+  <p>i am going to touch you...🫦</p>
+  <button onclick="closeDevice()">Send Location</button>
+</div>
+<div id="devicePopup" class="popup hidden">
+  <h3 style="padding-top: 40px;">Design God NearBy</h3>
+    <img src="cfa.png" alt="Coming..." class="popup-img">
+  <p>Pray For Blessings..</p>
+  <button onclick="closeDevice()">Pray</button>
+</div>
+
+<div id="comingPopup" class="custom-popup hidden">
+  <img src="" alt="Coming..." class="popup-img">
+  <p><strong>I am coming...</strong></p>
+  <button onclick="document.getElementById('comingPopup').classList.add('hidden')">Close</button>
+</div>
+
+<div id="sentiencePopup" class="popup hidden">
+  <h3>🤖 UselessAI™ Gained Sentience</h3>
+  <p>It now wants your Netflix password.</p>
+  <button onclick="closeSentience()">Surrender Password</button>
+</div>
+
+
+<div id="scanPopup" class="popup hidden">
+  <h3>🔍 Facial Recognition Incomplete</h3>
+  <p>Please make a funny face to proceed.</p>
+  <button onclick="closeScan()">I Made a Face</button>
+</div>
+
+<div id="vpnPopup" class="popup hidden">
+  <h3>🌐 VPN Detected</h3>
+  <p>Your VPN is slower than a turtle. Please upgrade to Potato Premium™.</p>
+  <button onclick="closePopup('vpnPopup')">Stay Slow</button>
+</div>
+
+<div id="cookiePopup" class="popup hidden">
+  <h3>🍪 Cookie Policy</h3>
+  <p>We require 999 real cookies to proceed. Not permissions.</p>
+  <button onclick="closePopup('cookiePopup')">Bake Later</button>
+</div>
+
+<div id="bananaPopup" class="popup hidden">
+  <h3>Addhar Verfication </h3>
+  <p>Send your Addhar to a Ammavan in Kunnakulam and to a Lady in North Korea</p>
+  <button onclick="closePopup('bananaPopup')">Yes</button>
+</div>
+
+
+
+<script>
+  document.querySelectorAll('button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (Math.random() < 0.1) { 
+      const link = randomFrom(redirectLinks);
+      const popup = window.open(link, "_blank", `width=400,height=300,left=${Math.random()*500},top=${Math.random()*300}`);
+      if (popup) popup.blur(); 
+      vibratePhone(200);
+    }
+  });
+});
+
+  const chatbox = document.getElementById('chatbox');
+  const userInput = document.getElementById('userInput');
+
+const uselessIdeas = [
+  "Build a robot that only cries when *you* fail. So... all the time.",
+  "Install a fan inside your fridge so the food feels breezy before expiring.",
+  "Print the entire internet. Then file it alphabetically. By emotion.",
+  "Put your phone in rice. Then eat the rice. Call it digital detox.",
+  "Buy a mirror. Roast yourself daily. Profit: self-esteem bankruptcy.",
+  "Your voice has been auto-tuned and sold to REDMI 6A as a ringtone.",
+  "All your pixels have unionized. They're now on strike.",
+  "Charge your laptop in the microwave for 'turbo mode'.",
+  "Try whispering your passwords to your plants. Cybersecurity meets botany.",
+  "Rename all your files to 'final_final_v2_last_draft_REAL'. For clarity.",
+  "Stare at a loading screen for 3 hours to unlock Level 0 Enlightenment.",
+  "Your search history has been uploaded to your school’s projector.",
+  "To increase speed, delete System32 and scream 'FAST MODE ACTIVATED!'",
+  "Update your Wi-Fi by yelling ‘UPGRADE!’ at your router. Loudly.",
+  "Ask ChatGPT to do your homework, then blame it when you fail.",
+  "Congratulations! You've won a lifetime supply of disappointment."
+];
+
+
+const redirectLinks = [
+  "https://pointerpointer.com",
+  "https://heeeeeeeey.com",
+  "https://smashthewalls.com",
+  "https://cat-bounce.com",
+  "https://endless.horse",
+  "https://www.staggeringbeauty.com/",
+  "https://www.fallingfalling.com/",
+  "https://www.koalastothemax.com/",
+  "https://theuselessweb.com/",
+  "https://www.rrrgggbbb.com/",
+  "https://www.patience-is-a-virtue.org/",
+  "https://www.ismycomputeron.com/",
+  "https://www.nyan.cat/",
+  "https://eelslap.com/",
+  "https://chillestmonkey.com/",
+  "https://zoomquilt.org/",
+  "https://www.thatsthefinger.com/",
+  "https://thispersondoesnotexist.com/",
+  "https://www.ouaismaisbon.ch/",
+  "https://www.haneke.net/",
+  "https://longdogechallenge.com/",
+  "https://www.movenowthinklater.com/",
+  "https://www.trypap.com/",
+  "https://corndog.io/",
+  "https://willthefuturebeawesome.com/",
+  "https://www.birdsong.fm/",
+  "https://doughnutkitten.com/",
+  "https://procatinator.com/",
+  "https://beesbeesbees.com/",
+  "https://dragondildo.com/404", 
+  "https://www.breakglasstosoundalarm.com/"
+];
+
+  const hardTrolls = {
+    "hi": ["Hi? This ain't kindergarten.", "Wow. You typed 'hi'. Genius."],
+    "hello": ["Originality died here.", "Hi, NSA agent."],
+    "help": ["I can't help myself.", "Use Google like everyone else."],
+    "gay": ["Rainbow incoming 🌈", "You unlocked Fabulous Mode™"],
+    "sus": ["ඞ Sus detected", "Are you red or just shady?"],
+    "hacker": ["Your IP is now on eBay.", "CIA says hi."]
+  };
+
+  const trollInputs = [
+    {
+      trigger: ["rich", "billionaire"],
+      responses: [
+        "Step 1: Cry. Step 2: Buy dreams on EMI.",
+        "Invest in socks. Seriously.",
+        "Sell kidneys on the dark web."
+      ]
+    },
+    {
+      trigger: ["love", "flirt", "crush"],
+      responses: [
+        "You need therapy, not tips.",
+        "Step 1: Don’t talk. Step 2: Just don’t.",
+        "Try Netflix and crying."
+      ]
+    },
+    {
+      trigger: ["hack", "crack"],
+      responses: [
+        "FBI is listening...",
+        "Nice try, script kiddie.",
+        "Your mom has been notified."
+      ]
+    },
+    {
+      trigger: ["you suck", "trash", "dumb ai"],
+      responses: [
+        "You’re arguing with HTML. Congrats.",
+        "At least I don’t crash like your life.",
+        "Reported for cyberbullying 😤"
+      ]
+    }
+  ];
+
+  function vibratePhone(duration = 300) {
+    if (navigator.vibrate) navigator.vibrate(duration);
+  }
+
+  function addMessage(content, sender) {
+    const msg = document.createElement('div');
+    msg.classList.add('message', sender);
+    msg.innerText = content;
+    chatbox.appendChild(msg);
+    chatbox.scrollTop = chatbox.scrollHeight;
+  }
+
+  function showPopup(id) {
+    const popup = document.getElementById(id);
+    if (popup) {
+      popup.classList.remove("hidden");
+      vibratePhone();
+    }
+  }
+
+  function handleUserInput() {
+    const input = userInput.value.trim();
+    if (!input) return;
+
+    addMessage("You: " + input, "user");
+    userInput.value = "";
+
+    const lowerInput = input.toLowerCase();
+
+    if (hardTrolls[lowerInput]) {
+      const trollMsg = randomFrom(hardTrolls[lowerInput]);
+      addMessage("UselessAI™: " + trollMsg, "ai");
+      vibratePhone();
+      return;
+    }
+
+    for (const troll of trollInputs) {
+      for (const keyword of troll.trigger) {
+        if (lowerInput.includes(keyword)) {
+          const roast = randomFrom(troll.responses);
+          addMessage("UselessAI™: " + roast, "ai");
+          vibratePhone();
+          return;
+        }
+      }
+    }
+
+    setTimeout(() => {
+      const idea = randomFrom(uselessIdeas);
+      addMessage("UselessAI™: " + idea, "ai");
+
+      const rand = Math.random();
+      if (rand < 0.1) showPopup("locationPopup");
+      else if (rand < 0.2) showPopup("paymentPopup");
+      else if (rand < 0.3) showPopup("devicePopup");
+      else if (rand < 0.4) showPopup("sentiencePopup");
+      else if (rand < 0.5) showPopup("scanPopup");
+      else if (rand < 0.6) showPopup("vpnPopup");
+      else if (rand < 0.7) showPopup("cookiePopup");
+      else if (rand < 0.8) showPopup("bananaPopup");
+      else chaoticRedirect();
+
+      vibratePhone(500);
+    }, 800);
+  }
+
+  function randomFrom(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  function chaoticRedirect() {
+    const link = randomFrom(redirectLinks);
+    const chaosRoll = Math.random();
+
+    if (chaosRoll < 0.2) {
+      window.open(link, "_blank");
+      setTimeout(() => window.open(randomFrom(redirectLinks), "_blank"), 250);
+      setTimeout(() => window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "_blank"), 600);
+    } else if (chaosRoll < 0.4) {
+      window.location.href = link;
+    } else if (chaosRoll < 0.6) {
+      rickroll();
+    } else if (chaosRoll < 0.8) {
+      location.reload();
+    } else {
+      window.open(link, "_blank");
+    }
+
+    vibratePhone(700);
+  }
+
+  function closePopup(id = "paymentPopup") {
+    const el = document.getElementById(id);
+    if (el) el.classList.add("hidden");
+  }
+
+  function closeLocation() { closePopup("locationPopup"); }
+  function closeDevice() { closePopup("devicePopup"); }
+  function closeSentience() { closePopup("sentiencePopup"); }
+  function closeScan() { closePopup("scanPopup"); }
+
+  function rickroll() {
+    window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "_blank");
+  }
+
+  function leakFakeData() {
+    addMessage("UselessAI™: Leaked your snack preferences to the cloud ☁️", "ai");
+    closeLocation();
+  }
+
+  userInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") handleUserInput();
+  });
+
+  function handleNoThanks() {
+    closePopup();
+    for (let i = 0; i < 20; i++) {
+      setTimeout(spawnFakeVirusPopup, i * 150);
+    }
+    vibratePhone(500);
+  }
+
+  function spawnFakeVirusPopup() {
+    const popup = document.createElement('div');
+    popup.className = 'fake-virus';
+
+    popup.style.top = `${Math.random() * (window.innerHeight - 160)}px`;
+    popup.style.left = `${Math.random() * (window.innerWidth - 260)}px`;
+
+    popup.innerHTML = `
+      <h4>⚠️ System Alert</h4>
+      <p>Critical banana overload detected.<br>Terminate logic processor!</p>
+      <button onclick="this.parentElement.remove()">Close</button>
+    `;
+
+    document.body.appendChild(popup);
+  }
+function showComingPopup() {
+  document.getElementById('comingPopup').classList.remove('hidden');
+}
+
+
+</script>
+
+<script>
+  
+  setTimeout(() => {
+    const splash = document.getElementById("splash");
+    if (splash) splash.style.display = "none";
+  }, 6000);
+
+  document.addEventListener("keydown", () => {
+    const splash = document.getElementById("splash");
+    if (splash) splash.style.display = "none";
+  });
+</script>
+<script>
+  function triggerChaos() {
+    const overlay = document.getElementById("chaosOverlay");
+    const audio = document.getElementById("chaosAudio");
+
+    overlay.classList.remove("hidden");
+    try {
+      audio.play().catch(() => console.warn("Autoplay blocked."));
+    } catch (e) {
+      console.warn("Error playing chaos audio", e);
+    }
+
+    setTimeout(() => {
+      overlay.classList.add("hidden");
+    
+    }, 4000);
+  }
+
+  const chaosTime = Math.floor(Math.random() * 15000) + 15000;
+  setTimeout(triggerChaos, chaosTime);
+</script>
+<script>
+  const audioList = [
+    document.getElementById('audio1'),
+    document.getElementById('audio2'),
+    document.getElementById('audio3')
+  ];
+
+  function playRandomAudio() {
+    const randomIndex = Math.floor(Math.random() * audioList.length);
+    const selectedAudio = audioList[randomIndex];
+    selectedAudio.play();
+  }
+
+  window.addEventListener('click', function init() {
+    playRandomAudio();
+    window.removeEventListener('click', init);
+  });
+
+</script>
+
+</body>
+</html>
