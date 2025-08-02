@@ -62,7 +62,7 @@ USELESS AI CHATBOT ,THAT GIVE ABSOLUTE USELESS IDEAS
 
 
 ### Project Demo
-# Video <video controls src="SS RECORDING.mp4" title="Title"></video>
+# Video SS RECORDING.mp4
 VIDEO OF THE PROJECT
 explains the working of the useless Ai bot
 
