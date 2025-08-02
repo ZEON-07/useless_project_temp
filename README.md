@@ -62,8 +62,12 @@ USELESS AI CHATBOT ,THAT GIVE ABSOLUTE USELESS IDEAS
 
 
 ### Project Demo
-# Video SS RECORDING.mp4
+# Video 
 VIDEO OF THE PROJECT
+
+https://github.com/user-attachments/assets/33bc6cb9-01ab-45cb-b77b-0579a57930e3
+
+
 explains the working of the useless Ai bot
 
 ## Team Contributions
